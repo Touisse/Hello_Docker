@@ -1,3 +1,9 @@
-FROM node:current-alpine3.17
+FROM node:14.16.0-alpine3.13
+RUN addgroup app && adduser -S -G app app
 WORKDIR /app
 COPY . .
+RUN npm install && \
+    chown -R app:app node_modules/
+ENV API_URL=http://api.myapp.com/
+EXPOSE 3000
+USER app
